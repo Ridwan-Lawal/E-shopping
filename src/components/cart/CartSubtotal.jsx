@@ -2,7 +2,7 @@ import { IoTrash } from "react-icons/io5";
 import { useInternationalization } from "../customhooks/useInternationalization";
 
 /* eslint-disable react/prop-types */
-function CartSubtotal({ cartSubtotal = 0 }) {
+function CartSubtotal({ cartSubtotal = 0, dispatch }) {
   const cartSubtotalInNaira = useInternationalization(cartSubtotal);
 
   return (
@@ -10,7 +10,10 @@ function CartSubtotal({ cartSubtotal = 0 }) {
       <p className="font-medium tracking-wide">
         Subtotal: {cartSubtotalInNaira}
       </p>
-      <button className="bg-red-500 p-3">
+      <button
+        className="bg-red-500 p-3"
+        onClick={() => dispatch({ type: "DeleteAllProduct" })}
+      >
         <IoTrash className="text-xl text-white" />
       </button>
     </div>

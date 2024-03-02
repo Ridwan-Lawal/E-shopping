@@ -4,6 +4,7 @@ import { FaEye, FaPlus } from "react-icons/fa6";
 import ProductCardButton from "./ProductCardButton";
 
 import { useInternationalization } from "../../customhooks/useInternationalization";
+import { Link } from "react-router-dom";
 
 function ProductCard({ product, dispatch }) {
   // custom hook to convert price to naira
@@ -30,9 +31,11 @@ function ProductCard({ product, dispatch }) {
           <FaPlus className="text-white" />
         </ProductCardButton>
 
-        <ProductCardButton bgColor="bg-white">
-          <FaEye />
-        </ProductCardButton>
+        <Link to={`/productDetails/${product?.title}?id=${product?.id}`}>
+          <ProductCardButton bgColor="bg-white">
+            <FaEye />
+          </ProductCardButton>
+        </Link>
       </section>
     </div>
   );

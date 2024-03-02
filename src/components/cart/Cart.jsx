@@ -29,7 +29,7 @@ function Cart({ cart, children, dispatch }) {
       </div>
 
       <div className="space-y-6 mt-5">
-        <CartSubtotal cartSubtotal={cartSubtotal} />
+        <CartSubtotal cartSubtotal={cartSubtotal} dispatch={dispatch} />
         <CartCheckout />
       </div>
     </div>

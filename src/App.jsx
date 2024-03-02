@@ -8,7 +8,7 @@ import { useEffect, useReducer } from "react";
 
 
 
-- handle clearing all product in the cart
+
 - handle the routing or the linking between clicking a product to the products details page
 
 
@@ -88,6 +88,9 @@ function reducer(state, action) {
             : product
         ),
       };
+
+    case "deleteAllProduct":
+      return { ...state, cart: [] };
 
     default:
       throw new Error("Unknown error");
