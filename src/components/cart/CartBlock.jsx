@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
+import { useContext } from "react";
 import Cart from "./Cart";
-import CartNav from "./CartNav";
 
-function CartBlock({ isCartOpen, cart, dispatch, cartLength }) {
+import AppContext from "../AppContext";
+
+function CartBlock() {
+  const { isCartOpen } = useContext(AppContext);
   return (
     <div
       className={`fixed border bg-white  right-0 h-full transition-all duration-500 shadow-2xl  shadow-gray-500 ${
@@ -11,9 +14,7 @@ function CartBlock({ isCartOpen, cart, dispatch, cartLength }) {
           : "w-0"
       } `}
     >
-      <Cart cart={cart} dispatch={dispatch}>
-        <CartNav dispatch={dispatch} cartLength={cartLength} />{" "}
-      </Cart>
+      <Cart />
     </div>
   );
 }

@@ -1,8 +1,10 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useEffect, useReducer } from "react";
+import AppContext from "./components/AppContext";
+
 import Homepage from "./pages/Homepage";
 import ProductDetails from "./pages/ProductDetails";
 import PageNotFound from "./pages/PageNotFound";
-import { createContext, useEffect, useReducer } from "react";
 import Error from "./components/app-states/Error";
 import Loader from "./components/app-states/Loader";
 
@@ -105,9 +107,6 @@ function App() {
     state;
   const cartLength = cart.length;
 
-  //context
-  const AppContext = createContext();
-
   /* effect for increasing the index of the hero so it can change
   after 4 seconds
 */
@@ -166,30 +165,10 @@ function App() {
         {status === "ready" && (
           <BrowserRouter>
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <Homepage
-                    isCartOpen={isCartOpen}
-                    heroIndex={heroIndex}
-                    productsData={productsData}
-                    dispatch={dispatch}
-                    cart={cart}
-                    cartLength={cartLength}
-                  />
-                }
-              />
+              <Route path="/" element={<Homepage />} />
               <Route
                 path="productDetails/:productName"
-                element={
-                  <ProductDetails
-                    productsData={productsData}
-                    dispatch={dispatch}
-                    cartLength={cartLength}
-                    cart={cart}
-                    isCartOpen={isCartOpen}
-                  />
-                }
+                element={<ProductDetails />}
               />
               <Route path="*" element={<PageNotFound />} />
             </Routes>

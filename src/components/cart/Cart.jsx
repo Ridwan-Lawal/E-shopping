@@ -1,11 +1,16 @@
 /* eslint-disable react/prop-types */
+import { useContext } from "react";
 import CartCheckout from "./CartCheckout";
 import CartProductCard from "./CartProductCard";
 import CartProductCardHeading from "./CartProductCardHeading";
 import CartProductCardPrice from "./CartProductCardPrice";
 import CartSubtotal from "./CartSubtotal";
+import AppContext from "../AppContext";
+import CartNav from "./CartNav";
 
-function Cart({ cart, children, dispatch }) {
+function Cart() {
+  const { cart, dispatch } = useContext(AppContext);
+
   // calculating the cart subtotal
   const cartSubtotal = cart.reduce(
     (acc, product) => acc + product.price * product.quantity,
@@ -14,7 +19,9 @@ function Cart({ cart, children, dispatch }) {
 
   return (
     <div className="px-5 flex flex-col">
-      <div className="h-[12vh]  mb-4">{children}</div>
+      <div className="h-[12vh]  mb-4">
+        <CartNav />
+      </div>
       <div className="h-[63vh]  mt-10  overflow-auto">
         {cart?.map((product) => (
           <CartProductCard

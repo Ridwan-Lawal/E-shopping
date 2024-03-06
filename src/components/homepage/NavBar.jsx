@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { IoBagOutline } from "react-icons/io5";
+import AppContext from "../AppContext";
 
-function NavBar({ dispatch, cartLength, onClick }) {
+function NavBar() {
+  const { dispatch, cartLength, onClick } = useContext(AppContext);
+
   const [isNavFixed, setIsNavFixed] = useState(false);
   const heroEl = useRef(null);
 

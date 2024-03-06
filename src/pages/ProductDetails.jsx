@@ -6,14 +6,11 @@ import AddToCartButton from "../components/productDetails/AddToCartButton";
 import { FaArrowLeft } from "react-icons/fa6";
 import { useInternationalization } from "../components/customhooks/useInternationalization";
 import CartBlock from "../components/cart/CartBlock";
+import { useContext } from "react";
+import AppContext from "../components/AppContext";
 
-function ProductDetails({
-  productsData,
-  dispatch,
-  cartLength,
-  isCartOpen,
-  cart,
-}) {
+function ProductDetails() {
+  const { productsData, dispatch } = useContext(AppContext);
   // To get the product name stored in the params in the url
   const { productName } = useParams();
   const navigate = useNavigate();
@@ -31,11 +28,7 @@ function ProductDetails({
   return (
     <div className="flex">
       <div className="text-slate-900">
-        <NavBar
-          dispatch={dispatch}
-          onClick={() => navigate("/")}
-          cartLength={cartLength}
-        />
+        <NavBar onClick={() => navigate("/")} />
 
         <button
           className="bg-slate-900 text-white px-5 py-2 flex items-center  gap-3 shadow-lg ml-12 mt-6"
@@ -75,12 +68,7 @@ function ProductDetails({
         <Footer />
       </div>
 
-      <CartBlock
-        isCartOpen={isCartOpen}
-        cart={cart}
-        dispatch={dispatch}
-        cartLength={cartLength}
-      />
+      <CartBlock />
     </div>
   );
 }
