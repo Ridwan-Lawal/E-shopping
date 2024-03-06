@@ -18,7 +18,9 @@ function ProductCard({ product, dispatch }) {
 
       <section className="space-y-2 mt-5 ">
         <p className="text-slate-500">{product?.category}</p>
-        <p className="font-semibold text-slate-900">{product?.title}</p>
+        <Link to={`/productDetails/${product?.title}?id=${product?.id}`}>
+          <p className="font-semibold text-slate-900">{product?.title}</p>
+        </Link>
         <p className="text-slate-900">{productPriceInNaira}</p>
       </section>
 

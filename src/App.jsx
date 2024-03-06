@@ -2,15 +2,17 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import ProductDetails from "./pages/ProductDetails";
 import PageNotFound from "./pages/PageNotFound";
-import { useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
+import Error from "./components/app-states/Error";
+import Loader from "./components/app-states/Loader";
 
 /*
 
 
 
 
-- handle the routing or the linking between clicking a product to the products details page
-
+-error, loading, state
+=page not found, page
 
 
 */
@@ -33,7 +35,7 @@ function reducer(state, action) {
       };
 
     case "dataReady":
-      return { ...state, productsData: action.payload };
+      return { ...state, productsData: action.payload, status: "ready" };
 
     case "dataFailed":
       return { ...state, status: "error", errMessage: action.payload };
@@ -99,7 +101,12 @@ function reducer(state, action) {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialValue);
-  const { isCartOpen, heroIndex, productsData, cart } = state;
+  const { isCartOpen, heroIndex, productsData, cart, status, errMessage } =
+    state;
+  const cartLength = cart.length;
+
+  //context
+  const AppContext = createContext();
 
   /* effect for increasing the index of the hero so it can change
   after 4 seconds
@@ -140,29 +147,56 @@ function App() {
   }, []);
 
   return (
-    <div className="font-roboto">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Homepage
-                isCartOpen={isCartOpen}
-                heroIndex={heroIndex}
-                productsData={productsData}
-                dispatch={dispatch}
-                cart={cart}
+    <AppContext.Provider
+      value={{
+        isCartOpen,
+        heroIndex,
+        productsData,
+        cart,
+        status,
+        errMessage,
+        dispatch,
+        cartLength,
+      }}
+    >
+      <div className="font-roboto">
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error errMessage={errMessage} />}
+
+        {status === "ready" && (
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Homepage
+                    isCartOpen={isCartOpen}
+                    heroIndex={heroIndex}
+                    productsData={productsData}
+                    dispatch={dispatch}
+                    cart={cart}
+                    cartLength={cartLength}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="productDetails/:productId"
-            element={<ProductDetails />}
-          />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+              <Route
+                path="productDetails/:productName"
+                element={
+                  <ProductDetails
+                    productsData={productsData}
+                    dispatch={dispatch}
+                    cartLength={cartLength}
+                    cart={cart}
+                    isCartOpen={isCartOpen}
+                  />
+                }
+              />
+              <Route path="*" element={<PageNotFound />} />
+            </Routes>
+          </BrowserRouter>
+        )}
+      </div>
+    </AppContext.Provider>
   );
 }
 
